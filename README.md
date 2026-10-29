@@ -21,10 +21,15 @@ python -m sentinelwatch.report --auth data/auth_events.csv --accounts data/accou
 ## Verified local demo
 Nine fictional authentication events generated one triage alert. Four fictional accounts generated three identity-control findings; two correlate to the alerted account. All eight local unit tests passed on the initial build. These counts are **not** estimates of precision, recall, production performance, or demonstrated incidents.
 
+## Interactive dashboard and cloud-ready queries
+- [Open the interactive SOC dashboard](https://esoham.github.io/projects/sentinelwatch-console.html) — fictional data, browser-side filtering, investigation and control findings.
+- [Microsoft Sentinel KQL hunting queries](cloud/sentinel/) — sign-in correlation and privileged-role audit review.
+- [Cloud setup and cost/safety guidance](cloud/README.md) — requires a separately authorized Azure environment. Queries are published but **have not been executed in a live tenant**.
+
 ## Documentation
 See [architecture](docs/architecture.md), [incident runbook](docs/incident-runbook.md), [business risk assessment](docs/business-risk-assessment.md), and [threat model](docs/threat-model.md).
 
 ## Limitations
-No real telemetry, SIEM, EDR, cloud deployment, AI API, account disablement, or automated response is implemented. Source IPs are documentation-only ranges. The identity join uses a synthetic username, not a production-ready principal ID. All decisions require human investigation.
+No real telemetry, live SIEM, EDR, cloud deployment, AI API, account disablement, or automated response is implemented. Cloud KQL is provided as unvalidated hunting-query examples. Source IPs are documentation-only ranges. The identity join uses a synthetic username, not a production-ready principal ID. All decisions require human investigation.
 
 [Interactive portfolio case study](https://esoham.github.io/projects/sentinelwatch.html)
