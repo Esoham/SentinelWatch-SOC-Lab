@@ -1,0 +1,5 @@
+user,mfa_enabled,privileged,access_review_current,active,access_enabled,asset
+alex,false,true,false,true,true,FINANCE-APP
+sam,true,false,true,true,true,HELPDESK-APP
+jordan,true,true,true,true,true,ERP-APP
+pat,true,false,true,false,true,SHARED-PORTAL
