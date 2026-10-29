@@ -1,0 +1,9 @@
+// SentinelWatch SW-CLOUD-002 — Entra directory audit activity
+// Requires AuditLogs ingestion. Investigative hunting query, not a production analytic rule.
+AuditLogs
+| where TimeGenerated >= ago(7d)
+| where Category =~ "RoleManagement"
+| where OperationName has_any ("Add member to role", "Remove member from role", "Activate eligible role")
+| project TimeGenerated, OperationName, Result, CorrelationId,
+          InitiatedBy, TargetResources, LoggedByService
+| order by TimeGenerated desc
