@@ -1,0 +1,31 @@
+// SentinelWatch SW-CLOUD-001 — Microsoft Sentinel / Log Analytics
+// Requires SigninLogs connector. Triage hypothesis, NOT proof of compromise.
+// Tune threshold, ingestion latency, exclusions, and account baselines before use.
+let lookback = 24h;
+let window = 10m;
+let threshold = 5;
+let events = SigninLogs
+| where TimeGenerated >= ago(lookback)
+| where isnotempty(UserId) and isnotempty(IPAddress)
+| project TimeGenerated, UserId, UserPrincipalName, IPAddress,
+          ResultType=tostring(ResultType), AppDisplayName, CorrelationId;
+let failures = events
+| where ResultType != "0"
+| project UserId, IPAddress, FailureTime=TimeGenerated, FailureCorrelationId=CorrelationId;
+let successes = events
+| where ResultType == "0"
+| project UserId, IPAddress, SuccessTime=TimeGenerated,
+          UserPrincipalName, AppDisplayName, SuccessCorrelationId=CorrelationId;
+failures
+| join kind=inner successes on UserId, IPAddress
+| where FailureTime between ((SuccessTime - window) .. SuccessTime)
+| summarize FailureCount=count(), FirstFailure=min(FailureTime),
+            LastFailure=max(FailureTime),
+            FailureEvidence=make_set(FailureCorrelationId, 100)
+            by UserId, UserPrincipalName, IPAddress, SuccessTime,
+               AppDisplayName, SuccessCorrelationId
+| where FailureCount >= threshold
+| project AlertRule="SW-CLOUD-001", UserId, UserPrincipalName,
+          IPAddress, FirstFailure, LastFailure, SuccessTime,
+          FailureCount, AppDisplayName, SuccessCorrelationId, FailureEvidence
+| order by SuccessTime desc
