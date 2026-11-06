@@ -2,6 +2,10 @@
 
 **Defensive portfolio lab | Python 3.10+ | Wazuh 4.14.1 | Docker / WSL 2 | Synthetic detection dataset**
 
+**Review in 60 seconds:** [Interactive SOC demo](https://esoham.github.io/projects/sentinelwatch-console.html) · [Incident runbook](docs/incident-runbook.md) · [Tests](tests/) · [Portfolio case study](https://esoham.github.io/projects/sentinelwatch.html)
+
+**What this demonstrates:** investigation of synthetic authentication events, detection and triage logic, identity-control findings, clear escalation notes, and limits on automated conclusions. The local Wazuh setup is documented separately; the interactive demo is **not** live SIEM telemetry.
+
 ## Business question
 How can a Tier 1 analyst identify a suspicious login sequence, correlate it with identity-control weaknesses, and prepare an evidence-based escalation packet without prematurely declaring a compromise?
 
